@@ -1,0 +1,7 @@
+syntax = "proto3";
+package omni.omni;
+
+option go_package = "Omni/x/omni/types";
+
+// Msg defines the Msg service.
+service Msg {}
