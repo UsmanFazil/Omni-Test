@@ -12,7 +12,9 @@ ignite chain serve
 ### Configure
 
 Before running the project, set the Ethereum RPC endpoint environment variable:
+```
 export ETHEREUM_RPC_ENDPOINT="https://your-ethereum-rpc-url-here"
+```
 
 ### Usage
 
