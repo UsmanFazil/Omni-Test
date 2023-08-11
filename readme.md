@@ -11,42 +11,58 @@ ignite chain serve
 
 ### Configure
 
-Your blockchain in development can be configured with `config.yml`. To learn more, see the [Ignite CLI docs](https://docs.ignite.com).
+Before running the project, set the Ethereum RPC endpoint environment variable:
+export ETHEREUM_RPC_ENDPOINT="https://your-ethereum-rpc-url-here"
 
-### Web Frontend
+### Usage
 
-Ignite CLI has scaffolded a Vue.js-based web app in the `vue` directory. Run the following commands to install dependencies and start the app:
+To fetch data from the Ethereum chain and store it:
 
-```
-cd vue
-npm install
-npm run serve
-```
+Omnid tx omni fetch-eth-data "queryid" --from bob
 
-The frontend app is built using the `@starport/vue` and `@starport/vuex` packages. For details, see the [monorepo for Ignite front-end development](https://github.com/ignite/web).
+Replace "queryid" with the unique identifier for your query. This ID will be used to associate the fetched Ethereum data in the Omni chain.
 
-## Release
-To release a new version of your blockchain, create and push a new tag with `v` prefix. A new draft release with the configured targets will be created.
+For example, if you want to fetch data and associate it with the ID 12345, you would run:
 
-```
-git tag v0.1
-git push origin v0.1
-```
+Omnid tx omni fetch-eth-data "12345" --from bob
 
-After a draft release is created, make your final changes from the release page and publish it.
+To retrieve the saved Ethereum data based on a specific ID:
 
-### Install
-To install the latest version of your blockchain node's binary, execute the following command on your machine:
+Omnid q omni show-eth-data <query_id>
 
-```
-curl https://get.ignite.com/username/Omni@latest! | sudo bash
-```
-`username/Omni` should match the `username` and `repo_name` of the Github repository to which the source code was pushed. Learn more about [the install process](https://github.com/allinbits/starport-installer).
+Replace <query_id> with the unique identifier associated with the data you want to retrieve.
 
-## Learn more
+For example, to retrieve data associated with the ID "12345", you would run:
 
-- [Ignite CLI](https://ignite.com/cli)
-- [Tutorials](https://docs.ignite.com/guide)
-- [Ignite CLI docs](https://docs.ignite.com)
-- [Cosmos SDK docs](https://docs.cosmos.network)
-- [Developer Chat](https://discord.gg/ignite)
+Omnid q omni show-eth-data 12345
+
+
+### Future improvments
+
+The Omni module provides essential functionality for fetching and storing Ethereum data. 
+However, to enhance its utility, I would do following things.
+
+1. Dynamic Contract Address and Storage Slot
+Current Limitation:
+The contract address and storage slot are currently hardcoded, limiting the module's flexibility to query different Ethereum contracts and their respective storage slots.
+
+Proposed Improvement:
+Allow users to pass the contract address and storage slot as parameters in the query. This change will make the module more versatile, enabling users to fetch data from any Ethereum contract without needing to modify the code.
+
+
+Omnid tx omni fetch-eth-data <query_id> --contract=<contract_address> --slot=<storage_slot> --from=<user>
+
+2. Enhanced Error Handling
+Current Limitation:
+The current error handling mechanism might not provide detailed feedback on specific issues, making it challenging for users to understand and rectify problems.
+
+Proposed Improvement:
+Implement comprehensive error handling to provide clear and actionable feedback. This includes:
+
+Descriptive Error Messages: Instead of generic error messages, provide detailed descriptions pinpointing the exact issue. For instance, instead of "Failed to connect," use "Failed to connect to Ethereum RPC at [endpoint]."
+
+Retry Mechanisms: For transient issues, like temporary network glitches, implement a retry mechanism with exponential backoff to automatically attempt the operation again.
+
+Error Logging: Log errors with timestamps, error codes, and other relevant details. This will aid in debugging and issue resolution.
+
+User Feedback: Ensure that all errors are communicated back to the user with clarity, suggesting potential solutions or steps to rectify them.

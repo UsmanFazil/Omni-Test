@@ -14,6 +14,15 @@ func TestGenesis(t *testing.T) {
 	genesisState := types.GenesisState{
 		Params: types.DefaultParams(),
 
+		FetchEthDataList: []types.FetchEthData{
+			{
+				Id: 0,
+			},
+			{
+				Id: 1,
+			},
+		},
+		FetchEthDataCount: 2,
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
@@ -25,5 +34,7 @@ func TestGenesis(t *testing.T) {
 	nullify.Fill(&genesisState)
 	nullify.Fill(got)
 
+	require.ElementsMatch(t, genesisState.FetchEthDataList, got.FetchEthDataList)
+	require.Equal(t, genesisState.FetchEthDataCount, got.FetchEthDataCount)
 	// this line is used by starport scaffolding # genesis/test/assert
 }

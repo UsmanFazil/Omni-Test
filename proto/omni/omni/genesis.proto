@@ -1,12 +1,17 @@
 syntax = "proto3";
+
 package omni.omni;
 
 import "gogoproto/gogo.proto";
 import "omni/omni/params.proto";
+import "omni/omni/fetch_eth_data.proto";
 
 option go_package = "Omni/x/omni/types";
 
 // GenesisState defines the omni module's genesis state.
 message GenesisState {
-  Params params = 1 [(gogoproto.nullable) = false];
+           Params       params            = 1 [(gogoproto.nullable) = false];
+  repeated FetchEthData fetchEthDataList  = 2 [(gogoproto.nullable) = false];
+           uint64       fetchEthDataCount = 3;
 }
+

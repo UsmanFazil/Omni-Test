@@ -1,0 +1,10 @@
+syntax = "proto3";
+package omni.omni;
+
+option go_package = "Omni/x/omni/types";
+
+message FetchEthData {
+  uint64 id = 1;
+  string dataVal = 2; 
+  string creator = 3;
+}

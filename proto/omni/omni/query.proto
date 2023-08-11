@@ -1,26 +1,58 @@
 syntax = "proto3";
+
 package omni.omni;
 
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "omni/omni/params.proto";
+import "omni/omni/fetch_eth_data.proto";
 
 option go_package = "Omni/x/omni/types";
 
 // Query defines the gRPC querier service.
 service Query {
+  
   // Parameters queries the parameters of the module.
-  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+  rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/Omni/omni/params";
+  
+  }
+  
+  // Queries a list of FetchEthData items.
+  rpc FetchEthData    (QueryGetFetchEthDataRequest) returns (QueryGetFetchEthDataResponse) {
+    option (google.api.http).get = "/Omni/omni/fetch_eth_data/{id}";
+  
+  }
+  rpc FetchEthDataAll (QueryAllFetchEthDataRequest) returns (QueryAllFetchEthDataResponse) {
+    option (google.api.http).get = "/Omni/omni/fetch_eth_data";
+  
   }
 }
-
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
 
 // QueryParamsResponse is response type for the Query/Params RPC method.
 message QueryParamsResponse {
+  
   // params holds all the parameters of this module.
   Params params = 1 [(gogoproto.nullable) = false];
 }
+
+message QueryGetFetchEthDataRequest {
+  uint64 id = 1;
+}
+
+message QueryGetFetchEthDataResponse {
+  FetchEthData FetchEthData = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllFetchEthDataRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllFetchEthDataResponse {
+  repeated FetchEthData                           FetchEthData = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination   = 2;
+}
+

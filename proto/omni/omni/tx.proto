@@ -1,7 +1,38 @@
 syntax = "proto3";
+
 package omni.omni;
+
+import "omni/omni/fetch_eth_data.proto";
 
 option go_package = "Omni/x/omni/types";
 
 // Msg defines the Msg service.
-service Msg {}
+service Msg {
+  rpc CreateFetchEthData (MsgCreateFetchEthData) returns (MsgCreateFetchEthDataResponse);
+  rpc UpdateFetchEthData (MsgUpdateFetchEthData) returns (MsgUpdateFetchEthDataResponse);
+  rpc DeleteFetchEthData (MsgDeleteFetchEthData) returns (MsgDeleteFetchEthDataResponse);
+}
+message MsgCreateFetchEthData {
+  string creator = 1;
+  string dataVal = 2;
+}
+
+message MsgCreateFetchEthDataResponse {
+  uint64 id = 1;
+}
+
+message MsgUpdateFetchEthData {
+  string creator = 1;
+  uint64 id      = 2;
+  string dataVal = 3;
+}
+
+message MsgUpdateFetchEthDataResponse {}
+
+message MsgDeleteFetchEthData {
+  string creator = 1;
+  uint64 id      = 2;
+}
+
+message MsgDeleteFetchEthDataResponse {}
+
