@@ -9,12 +9,17 @@ ignite chain serve
 
 `serve` command installs dependencies, builds, initializes, and starts your blockchain in development.
 
+### Implementation
+
+The Omni module fetches data from Ethereum using the eth_getStorageAt call, targeting the 0 storage slot of the Uni token contract. Once retrieved, this data is stored on the Cosmos-based Omni chain, ensuring data permanence and transparency. Users can then efficiently query this data using a unique ID, bridging the gap between Ethereum and Cosmos functionalities.
+
 ### Configure
 
 Before running the project, set the Ethereum RPC endpoint environment variable:
 ```
 export ETHEREUM_RPC_ENDPOINT="https://your-ethereum-rpc-url-here"
 ```
+(use main net rpc)
 
 ### Usage
 
